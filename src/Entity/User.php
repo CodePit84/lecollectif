@@ -6,8 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -16,22 +20,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email()]
+    #[Assert\Length(min: 2, max: 180)]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotNull()]
     private array $roles = [];
+
+    private ?string $plainPassword = null;
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $surName = null;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 50)]
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 255)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 5)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 5, max: 5)]
+    private ?string $zipcode = null;
+
+    #[ORM\Column(length: 150)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 150)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 10)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 10, max: 10)]
+    private ?string $phone = null;
+
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -103,14 +145,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getSurName(): ?string
+    public function getLastName(): ?string
     {
-        return $this->surName;
+        return $this->lastName;
     }
 
-    public function setSurName(string $surName): self
+    public function setLastName(string $lastName): self
     {
-        $this->surName = $surName;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -123,6 +165,86 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(string $zipcode): self
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of plainPassword
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
