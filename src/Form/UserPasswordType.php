@@ -14,54 +14,15 @@ class UserPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-    //     $builder
-    //         ->add('plainPassword', RepeatedType::class, [
-    //             'type' => PasswordType::class,
-    //             'first_options' => [
-    //                 'attr' => [
-    //                     'class' => 'form-control'
-    //                 ],
-    //                 'label' => 'Mot de passe',
-    //                 'label_attr' => [
-    //                     'class' => 'form-label  mt-4'
-    //                 ]
-    //             ],
-    //             'second_options' => [
-    //                 'attr' => [
-    //                     'class' => 'form-control'
-    //                 ],
-    //                 'label' => 'Confirmation du mot de passe',
-    //                 'label_attr' => [
-    //                     'class' => 'form-label  mt-4'
-    //                 ]
-    //             ],
-    //             'invalid_message' => 'Les mots de passe ne correspondent pas.'
-    //         ])
-    //         ->add('newPassword', PasswordType::class, [
-    //             'attr' => ['class' => 'form-control'],
-    //             'label' => 'Nouveau mot de passe',
-    //             'label_attr' => ['class' => 'form-label mt-4'],
-    //             'constraints' => [new Assert\NotBlank()]
-    //         ])
-    //         ->add('submit', SubmitType::class, [
-    //             'attr' => [
-    //                 'class' => 'btn btn-primary mt-4'
-    //             ],
-    //             'label' => 'Changer mon mot de passe'
-    //         ]);
-    // }
-
-
-
-    $builder
+        $builder
             ->add('plainPassword', PasswordType::class, [
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
-                    'label' => 'Mot de passe',
-                    'label_attr' => [
-                        'class' => 'form-label  mt-4'
-                    ]
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Mot de passe',
+                'label_attr' => [
+                    'class' => 'form-label  mt-4'
+                ]
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -94,7 +55,4 @@ class UserPasswordType extends AbstractType
                 'label' => 'Changer mon mot de passe'
             ]);
     }
-
-
-
 }
