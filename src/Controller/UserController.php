@@ -100,7 +100,7 @@ class UserController extends AbstractController
                 );
 
                 $this->addFlash(
-                    'succes',
+                    'success',
                     'Le mot de passe a été modifié.'
                 );
 
